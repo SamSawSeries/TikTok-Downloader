@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Video Downloader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            margin-bottom: 20px;
+        }
+        #progress-container {
+            width: 80%;
+            height: 20px;
+            background-color: #ddd;
+            margin: auto;
+            display: none;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        #progress-bar {
+            height: 100%;
+            width: 1%;
+            background-color: #28a745;
+            text-align: center;
+            line-height: 20px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>TikTok Video Downloader</h2>
+    <input type="text" id="videoLink" placeholder="Paste TikTok video link here">
+    <button onclick="downloadVideo()">Download</button>
+
+    <div id="progress-container">
+        <div id="progress-bar">1%</div>
+    </div>
+
+    <script>
+        function downloadVideo() {
+            let inputLink = document.getElementById("videoLink").value.trim();
+            if (!inputLink) {
+                alert("Please enter a valid TikTok video link.");
+                return;
+            }
+
+            // Construct the API URL
+            let apiBase = "https://tiktikdownloads.onrender.com/download/?link=";
+            let apiSuffix = "?is_from_webapp=1&sender_device=pc";
+            let downloadUrl = apiBase + encodeURIComponent(inputLink) + apiSuffix;
+
+            // Show progress bar
+            let progressContainer = document.getElementById("progress-container");
+            let progressBar = document.getElementById("progress-bar");
+            progressContainer.style.display = "block";
+            progressBar.style.width = "1%";
+            progressBar.innerText = "1%";
+
+            // Simulate progress
+            let progress = 1;
+            let interval = setInterval(() => {
+                progress += Math.random() * 10; // Random speed increment
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+
+                    // Start downloading after progress completes
+                    window.location.href = downloadUrl;
+                }
+                progressBar.style.width = progress + "%";
+                progressBar.innerText = Math.round(progress) + "%";
+            }, 300);
+        }
+    </script>
+
+</body>
+</html>
+  
